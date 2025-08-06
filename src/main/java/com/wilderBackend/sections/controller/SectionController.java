@@ -1,8 +1,7 @@
 package com.wilderBackend.sections.controller;
 
-import com.wilderBackend.response.JwtResponse;
 import com.wilderBackend.response.Response;
-import com.wilderBackend.sections.dto.CarouselDTO;
+import com.wilderBackend.sections.dto.SectionDTO;
 import com.wilderBackend.sections.service.SectionService;
 import com.wilderBackend.utils.ExceptionUtils;
 import com.wilderBackend.utils.ResponseUtils;
@@ -25,12 +24,21 @@ public class SectionController {
     public ResponseEntity<Response> getAllCarousel() {
 
         try {
-            List<CarouselDTO> carouselDTOS = sectionService.getAllCarousel();
-            return ResponseUtils.data(carouselDTOS);
+            List<SectionDTO> sectionDTOS = sectionService.getAllCarousel();
+            return ResponseUtils.data(sectionDTOS);
         } catch (Exception exception) {
             return ExceptionUtils.handleException(exception);
         }
     }
 
+    @GetMapping("/banner")
+    public ResponseEntity<Response> getAllBanners() {
 
+        try {
+            List<SectionDTO> sectionDTOS = sectionService.getAllBanners();
+            return ResponseUtils.data(sectionDTOS);
+        } catch (Exception exception) {
+            return ExceptionUtils.handleException(exception);
+        }
+    }
 }
