@@ -14,10 +14,10 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    @Value("${tms.app.jwtSecret}")
+    @Value("${wilder.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${tms.app.jwtExpirationMs}")
+    @Value("${wilder.app.jwtExpirationMs}")
     private Long jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication, String sessionId, Date jwtExpirationMs) {

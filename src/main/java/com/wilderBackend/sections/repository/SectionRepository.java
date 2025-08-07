@@ -1,5 +1,6 @@
 package com.wilderBackend.sections.repository;
 
+import com.wilderBackend.sections.dto.BannerDTO;
 import com.wilderBackend.sections.dto.SectionDTO;
 import com.wilderBackend.sections.entity.Section;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface SectionRepository extends JpaRepository<Section, Long> {
 
     @Query("""
-        SELECT new com.wilderBackend.sections.dto.SectionDTO(
+        SELECT new com.wilderBackend.sections.dto.BannerDTO(
           s.id,
           s.imageTitle,
           s.imageUrl
@@ -22,7 +23,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
         WHERE s.imageKey = :imageKey
           AND s.isActive = :isActive
         """)
-    List<SectionDTO> findByImageKeyAndIsActive(
+    List<BannerDTO> findByImageKeyAndIsActive(
             @Param("imageKey") String imageKey,
             @Param("isActive") boolean isActive
     );}

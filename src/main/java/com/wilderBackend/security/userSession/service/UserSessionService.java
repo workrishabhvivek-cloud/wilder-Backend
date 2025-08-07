@@ -20,7 +20,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class UserSessionService {
 
-    @Value("${tms.app.jwtExpirationMs}")
+    @Value("${wilder.app.jwtExpirationMs}")
     private Long jwtExpirationMs;
 
     private final UserSessionRepository userSessionRepository;

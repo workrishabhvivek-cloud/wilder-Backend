@@ -1,6 +1,7 @@
 package com.wilderBackend.sections.controller;
 
 import com.wilderBackend.response.Response;
+import com.wilderBackend.sections.dto.BannerDTO;
 import com.wilderBackend.sections.dto.SectionDTO;
 import com.wilderBackend.sections.service.SectionService;
 import com.wilderBackend.utils.ExceptionUtils;
@@ -24,8 +25,8 @@ public class SectionController {
     public ResponseEntity<Response> getAllCarousel() {
 
         try {
-            List<SectionDTO> sectionDTOS = sectionService.getAllCarousel();
-            return ResponseUtils.data(sectionDTOS);
+            SectionDTO sectionDTO = sectionService.getAllCarousel();
+            return ResponseUtils.data(sectionDTO);
         } catch (Exception exception) {
             return ExceptionUtils.handleException(exception);
         }
@@ -35,8 +36,8 @@ public class SectionController {
     public ResponseEntity<Response> getAllBanners() {
 
         try {
-            List<SectionDTO> sectionDTOS = sectionService.getAllBanners();
-            return ResponseUtils.data(sectionDTOS);
+            List<BannerDTO> braBannerDTOS= sectionService.getAllBanners();
+            return ResponseUtils.data(braBannerDTOS);
         } catch (Exception exception) {
             return ExceptionUtils.handleException(exception);
         }
