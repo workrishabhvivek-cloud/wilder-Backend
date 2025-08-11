@@ -2,7 +2,7 @@ package com.wilderBackend.auth.controller;
 
 import com.wilderBackend.auth.request.LoginRequest;
 import com.wilderBackend.auth.service.AuthService;
-import com.wilderBackend.response.JwtResponse;
+import com.wilderBackend.response.AuthResponse;
 import com.wilderBackend.response.Response;
 import com.wilderBackend.utils.ExceptionUtils;
 import com.wilderBackend.utils.ResponseUtils;
@@ -26,8 +26,8 @@ public class AuthController {
         RequestValidator.validateRequest(bindingResult);
 
         try {
-            JwtResponse jwtResponse = authService.login(loginRequest);
-            return ResponseUtils.data(jwtResponse);
+            AuthResponse authResponse = authService.login(loginRequest);
+            return ResponseUtils.data(authResponse);
         } catch (Exception exception) {
             return ExceptionUtils.handleException(exception);
         }
