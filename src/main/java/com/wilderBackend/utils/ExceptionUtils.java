@@ -16,7 +16,7 @@ public class ExceptionUtils {
     private static final Logger log = LoggerFactory.getLogger(ExceptionUtils.class);
 
     public static ResponseEntity<Response> handleException(Exception exception) {
-        log.error("Exception occurred: ", exception);
+        log.error("Something went wrong, Please try again: ", exception);
         HttpStatus status =
                 exception instanceof ResourceNotFoundException ? HttpStatus.NOT_FOUND :
                         exception instanceof IllegalArgumentException ? HttpStatus.BAD_REQUEST :

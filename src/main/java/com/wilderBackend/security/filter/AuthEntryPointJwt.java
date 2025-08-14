@@ -28,7 +28,9 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         // Build a custom response using your global Response class
         Response resp = Response.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
-                .errors(List.of("Your token is invalid or expired."))
+                .errors(List.of( "Your session is not authenticated or has expired. Please sign in again to continue.",
+                        "If you still see this error, try refreshing the page or contact support."
+                ))
                 .build();
 
         // Convert the response object to JSON string
