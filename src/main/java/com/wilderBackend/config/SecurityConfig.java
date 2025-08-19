@@ -1,9 +1,11 @@
 package com.wilderBackend.config;
 
 
+import com.wilderBackend.security.filter.AsyncSecurityContextPropagationFilter;
 import com.wilderBackend.security.filter.AuthEntryPointJwt;
 import com.wilderBackend.security.filter.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,6 +34,19 @@ public class SecurityConfig {
     private final AuthTokenFilter authTokenFilter;
 
     @Bean
+    public AsyncSecurityContextPropagationFilter asyncSecurityContextPropagationFilter() {
+        return new AsyncSecurityContextPropagationFilter();
+    }
+
+    @Bean
+    public FilterRegistrationBean<AsyncSecurityContextPropagationFilter> disableDefaultRegistration(
+            AsyncSecurityContextPropagationFilter filter) {
+        FilterRegistrationBean<AsyncSecurityContextPropagationFilter> reg = new FilterRegistrationBean<>(filter);
+        reg.setEnabled(false); // prevent container auto-registration; we'll add into Security chain explicitly
+        return reg;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // Enable CORS with custom configuration
@@ -43,12 +59,15 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPointJwt))
                 // Define endpoint permissions
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/login", "/error").permitAll()
                         .anyRequest().authenticated()
                 );
 
-        // Add JWT token filter before the authentication filter
+        // add jwt filter as before
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // IMPORTANT: add this BEFORE AuthorizationFilter
+        http.addFilterBefore(asyncSecurityContextPropagationFilter(), org.springframework.security.web.access.intercept.AuthorizationFilter.class);
 
         return http.build();
     }
