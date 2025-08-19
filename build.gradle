@@ -44,6 +44,8 @@ dependencies {
 
     // MapStruct annotation processor for compile-time code generation
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.7.1'
 }
 
 tasks.named('test') {
