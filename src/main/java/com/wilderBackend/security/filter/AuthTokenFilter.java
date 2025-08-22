@@ -82,7 +82,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             SecurityContextHolder.setContext(securityContext);
         } else {
             log.warn("Session for user '{}' and session ID '{}' is invalid.", userId, sessionId);
-            throw new ExpiredJwtException(null, null, "Session expired");
+            throw new ExpiredJwtException(null, null, "Your session has expired. Please sign in again to continue.");
         }
     }
 
